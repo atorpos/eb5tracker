@@ -5,11 +5,15 @@ import re
 from bs4 import BeautifulSoup
 
 s = requests.session()
-req_string = 'I-526'
-start_string = 'WAC'
+req_string = 'Case Was Approved'
 i_526list = []
-for i in range(1,100000,1):
-    case_no = start_string + '19899' + '%05d' % i
+
+with open('eb5table.json', 'r') as myfile:
+    data = myfile.read()
+obj = json.loads(data)
+
+for item in obj:
+    case_no = item['case_id']
     print(case_no)
 
     url = 'https://egov.uscis.gov/casestatus/mycasestatus.do'
@@ -20,7 +24,7 @@ for i in range(1,100000,1):
     soup = BeautifulSoup(data.text, 'html.parser')
     find_text = soup.find("h1")
     read_text = find_text.find_next_sibling("p").text.strip()
-    if req_string in read_text:
+    if req_string in find_text.text:
         string_array = read_text[3:].split(",")
         date_record = string_array[0] + string_array[1]
         add_data = {
@@ -35,3 +39,7 @@ for i in range(1,100000,1):
     time.sleep(0.5)
 json_encode = json.dumps(i_526list, ensure_ascii=False)
 print(json_encode)
+file_name = 'i526update_' + case_no + str(time.time()) +'.json'
+writefile = open(file_name, "x")
+writefile.write(json_encode)
+exit()
