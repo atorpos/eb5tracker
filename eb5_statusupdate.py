@@ -36,7 +36,7 @@ for item in obj:
         print(add_data)
     else:
         continue
-    time.sleep(0.5)
+    time.sleep(0.2)
 json_encode = json.dumps(i_526list, ensure_ascii=False)
 print(json_encode)
 file_name = 'i526update_' + case_no + str(time.time()) +'.json'
