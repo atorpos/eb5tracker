@@ -6,6 +6,12 @@ from bs4 import BeautifulSoup
 
 s = requests.session()
 req_string = 'Case Was Approved'
+withdraw_string = 'Withdrawal Acknowledgement Notice Was Sent'
+reject01_string = 'Case Rejected Because I Sent An Incorrect Fee'
+reject02_string = 'Case Rejected Because The Version Of The Form I Sent Is No Longer Accepted'
+reject03_string = 'Case Was Rejected Because It Was Improperly Filed'
+reject04_string = 'Case Was Rejected Because I Did Not Sign My Form'
+reject05_string = 'Case Was Denied'
 i_526list = []
 
 with open('eb5table.json', 'r') as myfile:
@@ -24,7 +30,7 @@ for item in obj:
     soup = BeautifulSoup(data.text, 'html.parser')
     find_text = soup.find("h1")
     read_text = find_text.find_next_sibling("p").text.strip()
-    if req_string in find_text.text:
+    if req_string in find_text.text or withdraw_string in find_text.text or reject01_string in find_text.text or reject02_string in find_text.text or reject03_string in find_text.text or reject04_string in find_text.text or reject05_string in find_text.text:
         string_array = read_text[3:].split(",")
         date_record = string_array[0] + string_array[1]
         add_data = {
