@@ -12,6 +12,8 @@ reject02_string = 'Case Rejected Because The Version Of The Form I Sent Is No Lo
 reject03_string = 'Case Was Rejected Because It Was Improperly Filed'
 reject04_string = 'Case Was Rejected Because I Did Not Sign My Form'
 reject05_string = 'Case Was Denied'
+reg02_string = 'Request for Additional Evidence Was Sent'
+reg03_string = 'Response To USCIS&#039; Request For Evidence Was Received'
 i_526list = []
 
 with open('eb5table.json', 'r') as myfile:
@@ -30,7 +32,7 @@ for item in obj:
     soup = BeautifulSoup(data.text, 'html.parser')
     find_text = soup.find("h1")
     read_text = find_text.find_next_sibling("p").text.strip()
-    if req_string in find_text.text or withdraw_string in find_text.text or reject01_string in find_text.text or reject02_string in find_text.text or reject03_string in find_text.text or reject04_string in find_text.text or reject05_string in find_text.text:
+    if req_string in find_text.text or withdraw_string in find_text.text or reject01_string in find_text.text or reject02_string in find_text.text or reject03_string in find_text.text or reject04_string in find_text.text or reject05_string in find_text.text or reg02_string in find_text.text or reg03_string in find_text.text:
         string_array = read_text[3:].split(",")
         date_record = string_array[0] + string_array[1]
         add_data = {
